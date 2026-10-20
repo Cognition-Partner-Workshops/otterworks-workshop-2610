@@ -87,6 +87,7 @@ data class PaginatedResponse<T>(
 @Serializable
 data class UnreadCountResponse(
     val userId: String,
+    val count: Int,
     val unreadCount: Int,
 )
 
