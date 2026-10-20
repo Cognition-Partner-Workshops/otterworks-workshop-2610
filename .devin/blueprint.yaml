@@ -35,7 +35,7 @@ maintenance: |
   export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64 DOTNET_ROOT="$HOME/.dotnet"
   export NVM_DIR="$HOME/.nvm"; . "$NVM_DIR/nvm.sh"
   (cd services/search-service && python3.12 -m venv .venv && .venv/bin/pip install -q -r requirements-dev.txt)
-  (cd services/document-service && poetry config virtualenvs.in-project true && poetry install --no-interaction)
+  (cd services/document-service && poetry config virtualenvs.in-project true && poetry install --no-root --no-interaction)
   (cd services/collab-service && npm ci --no-audit --no-fund)
   (cd services/api-gateway && go mod download)
   (cd services/audit-service && dotnet restore tests/AuditService.Tests)
