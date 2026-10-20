@@ -39,7 +39,7 @@ maintenance: |
   (cd services/collab-service && npm ci --no-audit --no-fund)
   (cd services/api-gateway && go mod download)
   (cd services/audit-service && dotnet restore tests/AuditService.Tests)
-  (cd services/notification-service && gradle --no-daemon -q dependencies > /dev/null)
+  (cd services/notification-service && gradle --no-daemon -q dependencies > /dev/null) || echo "notification-service dependency warm-up skipped; gradle resolves on first test run"
 
 knowledge:
   - name: run a service's own tests
