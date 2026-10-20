@@ -18,7 +18,9 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.int
+import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import org.koin.core.context.stopKoin
@@ -96,6 +98,29 @@ class RoutesTest {
 
         assertEquals(HttpStatusCode.OK, response.status)
         coVerify { notificationService.getNotifications(userId, 1, 10) }
+    }
+
+    @Test
+    fun `user with zero notifications gets a 0 unread count and an empty list`() = withApp {
+        coEvery { notificationService.getUnreadCount(userId) } returns 0
+        coEvery { notificationService.getNotifications(userId, 1, 20) } returns Pair(emptyList(), 0)
+
+        val countResponse = client.get("/api/v1/notifications/unread-count") {
+            header("X-User-ID", userId)
+        }
+        assertEquals(HttpStatusCode.OK, countResponse.status)
+        val countBody = Json.parseToJsonElement(countResponse.bodyAsText()).jsonObject
+        assertEquals(0, countBody["count"]?.jsonPrimitive?.int)
+        assertEquals(0, countBody["unreadCount"]?.jsonPrimitive?.int)
+
+        val listResponse = client.get("/api/v1/notifications?page=1&pageSize=20") {
+            header("X-User-ID", userId)
+        }
+        assertEquals(HttpStatusCode.OK, listResponse.status)
+        val listBody = Json.parseToJsonElement(listResponse.bodyAsText()).jsonObject
+        assertEquals(0, listBody["data"]?.jsonArray?.size)
+        assertEquals(0, listBody["total"]?.jsonPrimitive?.int)
+        assertEquals(false, listBody["hasMore"]?.jsonPrimitive?.boolean)
     }
 
     @Test
