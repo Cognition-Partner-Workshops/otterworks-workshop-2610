@@ -57,3 +57,12 @@ knowledge:
       Event copy of OtterWorks for a hands-on workshop. GitHub Actions are removed on
       purpose, so there is no CI on pull requests: the tests you run in the session are
       the evidence. Nothing here deploys to AWS; do not try to reach live infrastructure.
+  - name: pull request description format
+    contents: |
+      Every pull request in this repo uses these four sections, in this order:
+        ## What changed   (two or three plain sentences a non-engineer can follow)
+        ## Why            (the ticket, alert or finding, with its id)
+        ## How to verify  (the exact commands you ran and their result lines)
+        ## Risk           (what could break and how to roll back)
+      Keep the title under 70 characters and start it with the service name.
+      When a follow-up asks for another section, add it inside these four.
