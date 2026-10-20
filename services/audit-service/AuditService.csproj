@@ -24,6 +24,8 @@
     <PackageReference Include="Net.IBM.Data.Db2-lnx" Version="8.0.0.400" />
     <PackageReference Include="Npgsql" Version="8.0.5" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
+    <!-- Pin transitive System.Text.Json (via Microsoft.Extensions.DependencyModel) to patched 8.0.x: GHSA-hh2w-p6rv-4g7w, GHSA-8g4q-xg66-9fp4 -->
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
 
 </Project>
